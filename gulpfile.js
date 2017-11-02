@@ -1,5 +1,6 @@
 const gulp = require("gulp");
 const ts = require("gulp-typescript");
+const browserSync = require("browser-sync").create();
 
 const tsProject = ts.createProject({
   noImplicitAny: true,
@@ -13,7 +14,8 @@ gulp.task("html", () => {
 
 gulp.task("css", () => {
   return gulp.src("src/**/*.css")
-    .pipe(gulp.dest("build"));
+    .pipe(gulp.dest("build"))
+    .pipe(browserSync.stream());
 });
 
 gulp.task("js", () => {
@@ -24,8 +26,25 @@ gulp.task("js", () => {
 
 gulp.task("build", ["html", "css", "js"]);
 
+gulp.task("html-watch", ["html"], done => {
+  browserSync.reload();
+  done();
+});
+
+gulp.task("js-watch", ["js"], done => {
+  browserSync.reload();
+  done();
+});
+
 gulp.task("watch", ["build"], function () {
-  gulp.watch("src/**/*.html", "html");
+
+  browserSync.init({
+    server: {
+      baseDir: "build"
+    },
+  });
+
+  gulp.watch("src/**/*.html", "html-watch");
   gulp.watch("src/**/*.css", "css");
-  gulp.watch("src/**/*.ts", "js");
+  gulp.watch("src/**/*.ts", "js-watch");
 });
