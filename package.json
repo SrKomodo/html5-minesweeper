@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "html5-minesweeper",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "gulp watch",
+    "build": "gulp build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SrKomodo/html5-minesweeper.git"
@@ -13,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/SrKomodo/html5-minesweeper/issues"
   },
-  "homepage": "https://github.com/SrKomodo/html5-minesweeper#readme"
+  "homepage": "https://github.com/SrKomodo/html5-minesweeper#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.3",
+    "typescript": "^2.6.1"
+  }
 }
