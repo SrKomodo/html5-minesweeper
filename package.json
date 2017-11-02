@@ -1,0 +1,17 @@
+{
+  "name": "html5-minesweeper",
+  "version": "1.0.0",
+  "description": "html5-minesweeper",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrKomodo/html5-minesweeper.git"
+  },
+  "author": "SrKomodo",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/SrKomodo/html5-minesweeper/issues"
+  },
+  "homepage": "https://github.com/SrKomodo/html5-minesweeper#readme"
+}
