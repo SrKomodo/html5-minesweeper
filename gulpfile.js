@@ -1,6 +1,7 @@
 const gulp = require("gulp");
 const ts = require("gulp-typescript");
 const browserSync = require("browser-sync").create();
+const sourcemaps = require("gulp-sourcemaps");
 
 const tsProject = ts.createProject({
   noImplicitAny: true,
@@ -20,7 +21,9 @@ gulp.task("css", () => {
 
 gulp.task("js", () => {
   return gulp.src("src/**/*.ts")
+    .pipe(sourcemaps.init())
     .pipe(tsProject())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest("build"));
 });
 
@@ -44,7 +47,7 @@ gulp.task("watch", ["build"], function () {
     },
   });
 
-  gulp.watch("src/**/*.html", "html-watch");
-  gulp.watch("src/**/*.css", "css");
-  gulp.watch("src/**/*.ts", "js-watch");
+  gulp.watch("src/**/*.html", ["html-watch"]);
+  gulp.watch("src/**/*.css", ["css"]);
+  gulp.watch("src/**/*.ts", ["js-watch"]);
 });
