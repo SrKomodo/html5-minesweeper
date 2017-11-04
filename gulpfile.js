@@ -29,6 +29,7 @@ gulp.task("js", () => {
   })
     .plugin(tsify, "tsconfig.json")
     .bundle()
+    .on('error', function (error) { console.error(error.toString()); })
     .pipe(source("script.js"))
     .pipe(gulpif(release, uglify()))
     .pipe(gulp.dest("build"));
