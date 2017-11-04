@@ -1,12 +1,12 @@
 const gulp = require("gulp");
-const ts = require("gulp-typescript");
 const browserSync = require("browser-sync").create();
-const sourcemaps = require("gulp-sourcemaps");
+const browserify = require("browserify");
+const source = require("vinyl-source-stream");
+const tsify = require("tsify");
+const gulpif = require("gulp-if");
+const uglify = require("gulp-uglify");
 
-const tsProject = ts.createProject({
-  noImplicitAny: true,
-  outFile: "script.js"
-})
+const release = process.argv[3] === "--release";
 
 gulp.task("html", () => {
   return gulp.src("src/**/*.html")
@@ -20,10 +20,17 @@ gulp.task("css", () => {
 });
 
 gulp.task("js", () => {
-  return gulp.src("src/**/*.ts")
-    .pipe(sourcemaps.init())
-    .pipe(tsProject())
-    .pipe(sourcemaps.write())
+  return browserify({
+    basedir: ".",
+    debug: !release,
+    entries: ["src/script.ts"],
+    cache: {},
+    packageCache: {}
+  })
+    .plugin(tsify, "tsconfig.json")
+    .bundle()
+    .pipe(source("script.js"))
+    .pipe(gulpif(release, uglify()))
     .pipe(gulp.dest("build"));
 });
 

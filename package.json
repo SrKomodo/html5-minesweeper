@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp watch",
-    "build": "gulp build"
+    "build": "gulp build --release"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,13 @@
   "homepage": "https://github.com/SrKomodo/html5-minesweeper#readme",
   "devDependencies": {
     "browser-sync": "^2.18.13",
+    "browserify": "^14.5.0",
     "gulp": "^3.9.1",
+    "gulp-if": "^2.0.2",
     "gulp-sourcemaps": "^2.6.1",
-    "gulp-typescript": "^3.2.3",
-    "typescript": "^2.6.1"
+    "gulp-uglify": "^3.0.0",
+    "tsify": "^3.0.3",
+    "typescript": "^2.6.1",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
