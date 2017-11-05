@@ -3,5 +3,11 @@
 }
 
 body {
-  background: black;
+  background: #232323;
+  color: #aaa;
+}
+
+#board {
+  display: block;
+  margin: auto;
 }
