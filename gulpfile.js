@@ -3,10 +3,7 @@ const browserSync = require("browser-sync").create();
 const browserify = require("browserify");
 const source = require("vinyl-source-stream");
 const tsify = require("tsify");
-const gulpif = require("gulp-if");
-const uglify = require("gulp-uglify");
 const watchify = require("watchify");
-const buffer = require("vinyl-buffer");
 
 const release = process.argv[3] === "--release";
 
@@ -32,8 +29,6 @@ gulp.task("js", () => {
     .bundle()
     .on("error", function (error) { console.error(error.toString()); })
     .pipe(source("script.js"))
-    .pipe(buffer())
-    .pipe(gulpif(release, uglify()))
     .pipe(gulp.dest("build"));
 });
 
