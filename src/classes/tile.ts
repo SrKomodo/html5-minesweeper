@@ -2,10 +2,10 @@ import { Board } from "./board";
 import { Coord } from "./coord";
 
 const tileImage = new Image(30, 30);
-tileImage.src = "tile.png";
+tileImage.src = "images/tile.png";
 
 const mineImage = new Image(30, 30);
-mineImage.src = "mine.png";
+mineImage.src = "images/mine.png";
 
 class Tile {
   isHidden: boolean;
