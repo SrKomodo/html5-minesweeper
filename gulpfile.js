@@ -4,8 +4,15 @@ const browserify = require("browserify");
 const source = require("vinyl-source-stream");
 const tsify = require("tsify");
 const watchify = require("watchify");
+const gulpif = require("gulp-if");
 
 const release = process.argv[3] === "--release";
+
+const bundleBuild = browserify({
+  basedir: ".",
+  debug: !release,
+  entries: ["src/script.ts"]
+}).plugin(tsify);
 
 const watched = watchify(browserify({
   basedir: ".",
@@ -21,7 +28,7 @@ gulp.task("html", () => {
 gulp.task("css", () => {
   return gulp.src("src/**/*.css")
     .pipe(gulp.dest("build"))
-    .pipe(browserSync.stream());
+    .pipe(gulpif(!release, browserSync.stream()));
 });
 
 gulp.task("js", () => {
@@ -32,12 +39,19 @@ gulp.task("js", () => {
     .pipe(gulp.dest("build"));
 });
 
+gulp.task("buildjs", () => {
+  return bundleBuild
+    .bundle()
+    .pipe(source("script.js"))
+    .pipe(gulp.dest("build"));
+});
+
 gulp.task("assets", () => {
   return gulp.src("src/**/*.png")
     .pipe(gulp.dest("build"));
 });
 
-gulp.task("build", ["html", "css", "js", "assets"]);
+gulp.task("build", ["html", "css", "buildjs", "assets"]);
 
 gulp.task("html-watch", ["html"], done => {
   browserSync.reload();
