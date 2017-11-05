@@ -3,11 +3,61 @@
 }
 
 body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0;
   background: #232323;
-  color: #aaa;
+  color: white;
+}
+
+.game-container {
+  border: 3px outset white;
+  display: inline-flex;
+  flex-direction: column;
+
+  background: lightgray;
+}
+
+.game-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 5px;
 }
 
 #board {
-  display: block;
-  margin: auto;
+  margin: 5px;
+  border: 3px inset white;
+}
+
+#reset {
+  background-image: url(smiley.png);
+  background-position: -3px -3px;
+  width: 30px;
+  height: 30px;
+
+  border: 3px outset white;
+}
+
+#reset:active {
+  background-position: -2px -2px;
+  border-style: inset;
+}
+
+.numbers {
+  font-family: monospace;
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 24px;
+  vertical-align: middle;
+  color: red;
+  text-align: center;
+  height: 30px;
+  padding: 2px;
+  background: black;
+  border: 3px inset white;
 }

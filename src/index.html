@@ -8,8 +8,14 @@
   <title>HTML5 Minesweeper</title>
 </head>
 <body>
-  <canvas id="board"></canvas>
-  <button id="reset">New Game</button>
+  <div class="game-container">
+    <div class="game-header">
+      <div class="numbers" id="minesLeft">10</div>
+      <div id="reset"></div>
+      <div class="numbers" id="timer">10</div>
+    </div>
+    <canvas id="board"></canvas>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
