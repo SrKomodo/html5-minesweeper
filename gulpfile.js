@@ -5,8 +5,15 @@ const source = require("vinyl-source-stream");
 const tsify = require("tsify");
 const gulpif = require("gulp-if");
 const uglify = require("gulp-uglify");
+const watchify = require("watchify");
 
 const release = process.argv[3] === "--release";
+
+const watched = watchify(browserify({
+  basedir: ".",
+  debug: !release,
+  entries: ["src/script.ts"]
+}).plugin(tsify));
 
 gulp.task("html", () => {
   return gulp.src("src/**/*.html")
@@ -20,22 +27,20 @@ gulp.task("css", () => {
 });
 
 gulp.task("js", () => {
-  return browserify({
-    basedir: ".",
-    debug: !release,
-    entries: ["src/script.ts"],
-    cache: {},
-    packageCache: {}
-  })
-    .plugin(tsify, "tsconfig.json")
+  return watched
     .bundle()
-    .on('error', function (error) { console.error(error.toString()); })
+    .on("error", function (error) { console.error(error.toString()); })
     .pipe(source("script.js"))
     .pipe(gulpif(release, uglify()))
     .pipe(gulp.dest("build"));
 });
 
-gulp.task("build", ["html", "css", "js"]);
+gulp.task("assets", () => {
+  return gulp.src("src/**/*.png")
+    .pipe(gulp.dest("build"));
+});
+
+gulp.task("build", ["html", "css", "js", "assets"]);
 
 gulp.task("html-watch", ["html"], done => {
   browserSync.reload();
@@ -43,6 +48,11 @@ gulp.task("html-watch", ["html"], done => {
 });
 
 gulp.task("js-watch", ["js"], done => {
+  browserSync.reload();
+  done();
+});
+
+gulp.task("asset-watch", ["assets"], done => {
   browserSync.reload();
   done();
 });
@@ -58,4 +68,8 @@ gulp.task("watch", ["build"], function () {
   gulp.watch("src/**/*.html", ["html-watch"]);
   gulp.watch("src/**/*.css", ["css"]);
   gulp.watch("src/**/*.ts", ["js-watch"]);
+  gulp.watch("src/**/*.png", ["asset-watch"]);
+
+  watched.on("log", console.log);
 });
+
