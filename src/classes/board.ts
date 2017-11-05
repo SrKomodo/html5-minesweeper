@@ -55,21 +55,9 @@ class Board {
     }
 
     this.ctx.canvas.addEventListener("click", this.handleClick.bind(this));
+    this.ctx.canvas.addEventListener("contextmenu", this.handleRightClick.bind(this));
 
     this.render();
-  }
-
-  handleClick(e: MouseEvent) {
-    if (this.lost || this.won) return;
-    let pos = new Coord(
-      Math.floor((e.clientX - this.ctx.canvas.offsetLeft) / 30),
-      Math.floor((e.clientY - this.ctx.canvas.offsetTop) / 30)
-    );
-    if (this.at(pos).isHidden) {
-      this.at(pos).click(this);
-      this.render();
-    }
-    this.checkWin();
   }
 
   render() {
@@ -86,6 +74,30 @@ class Board {
         this.tiles[x][y].render(this.ctx);
       }
     }
+  }
+
+  handleClick(e: MouseEvent) {
+    if (this.lost || this.won) return;
+    let pos = new Coord(
+      Math.floor((e.clientX - this.ctx.canvas.offsetLeft) / 30),
+      Math.floor((e.clientY - this.ctx.canvas.offsetTop) / 30)
+    );
+    if (this.at(pos).isHidden) {
+      this.at(pos).click(this);
+      this.render();
+    }
+    this.checkWin();
+  }
+
+  handleRightClick(e: MouseEvent) {
+    if (this.lost || this.won) return;
+    let pos = new Coord(
+      Math.floor((e.clientX - this.ctx.canvas.offsetLeft) / 30),
+      Math.floor((e.clientY - this.ctx.canvas.offsetTop) / 30)
+    );
+    this.at(pos).rightClick(this);
+    this.render();
+    e.preventDefault();
   }
 
   checkWin() {
