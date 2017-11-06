@@ -61,20 +61,16 @@ class Tile {
 
   click(board: Board) {
     
-    if (this.hasFlag) return;
-    
-    else if (this.neighbours > 0) {
-      this.isHidden = false;
-    }
+    if (this.hasFlag || !this.isHidden) return;
+    this.isHidden = false;
 
-    else if (this.hasMine) {
+    if (this.hasMine) {
       this.boom = true;
       board.loose();
+      return;
     }
-    
-    else if (this.isHidden) {
-      this.isHidden = false;
 
+    if (this.neighbours === 0) {
       Tile.neighbours.forEach(coord => {
         let checkPos = this.pos.plus(new Coord(coord[0], coord[1]));
         
