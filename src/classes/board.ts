@@ -30,12 +30,13 @@ class Board {
     this.ctx.canvas.height = this.h * 30;
 
     for (let x = 0; x < width; x++) {
-      let row = [];
-      for (let y = 0; y < height; y++) {
-        let tile = new Tile(false, new Coord(x, y));
-        row.push(tile);
+      this.tiles.push(new Array(height));
+    }
+
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        this.tiles[x][y] = new Tile(false, new Coord(x, y));
       }
-      this.tiles.push(row);
     }
 
     for (let i = 0; i < mines; i++) {
@@ -69,8 +70,8 @@ class Board {
     this.ctx.fillStyle = "lightgray";
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    for (let y = 0; y < this.tiles.length; y++) {
-      for (let x = 0; x < this.tiles[y].length; x++) {
+    for (let x = 0; x < this.tiles.length; x++) {
+      for (let y = 0; y < this.tiles[x].length; y++) {
         this.tiles[x][y].render(this.ctx);
       }
     }
