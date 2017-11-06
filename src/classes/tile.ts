@@ -90,6 +90,29 @@ class Tile {
     if (this.isHidden) {
       this.hasFlag = !this.hasFlag;
     }
+    else {
+      let flags = Tile.neighbours.reduce((prev, curr) => {
+        let checkPos = this.pos.plus(new Coord(curr[0], curr[1]));
+
+        if (checkPos.x < 0 || checkPos.x > board.w - 1) return prev;
+        if (checkPos.y < 0 || checkPos.y > board.h - 1) return prev;
+
+        return prev + (board.at(checkPos).hasFlag ? 1 : 0);
+      }, 0);
+
+      if (flags === this.neighbours) {
+        Tile.neighbours.forEach(coord => {
+          let checkPos = this.pos.plus(new Coord(coord[0], coord[1]));
+
+          if (checkPos.x < 0 || checkPos.x > board.w - 1) return;
+          if (checkPos.y < 0 || checkPos.y > board.h - 1) return;
+
+          let tile = board.at(checkPos);
+          if (tile.hasFlag) return;
+          tile.click(board);
+        });
+      }
+    }
   }
 
   render(ctx: CanvasRenderingContext2D) {

@@ -69,8 +69,8 @@ class Board {
     this.ctx.fillStyle = "lightgray";
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    for (let x = 0; x < this.tiles.length; x++) {
-      for (let y = 0; y < this.tiles[x].length; y++) {
+    for (let y = 0; y < this.tiles.length; y++) {
+      for (let x = 0; x < this.tiles[y].length; x++) {
         this.tiles[x][y].render(this.ctx);
       }
     }
@@ -97,6 +97,7 @@ class Board {
     );
     this.at(pos).rightClick(this);
     this.render();
+    this.checkWin();
     e.preventDefault();
   }
 
