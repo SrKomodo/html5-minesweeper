@@ -2,30 +2,46 @@ import { Tile } from "./tile";
 import { Coord } from "./coord";
 
 class Board {
-  tiles: Tile[][];
+  ctx: CanvasRenderingContext2D;
+  timer: HTMLDivElement;
+  flagCounter: HTMLDivElement;
+
   w: number;
   h: number;
   mines: number;
-  ctx: CanvasRenderingContext2D;
+  tiles: Tile[][];
+
   lost: boolean;
   won: boolean;
+  started: boolean;
+  time: number;
+  flagsPlaced: number;
 
   at(pos: Coord) {
     return this.tiles[pos.x][pos.y];
   }
 
-  constructor(width: number, height: number, mines: number, ctx: CanvasRenderingContext2D) {
+  constructor(width: number, height: number, mines: number) {
 
     if (mines > width * height) mines = width * height;
 
-    this.lost = false;
-    this.won = false;
-    this.ctx = ctx;
+    this.ctx = (<HTMLCanvasElement>document.getElementById("board")).getContext("2d");
+    this.timer = <HTMLDivElement>document.getElementById("timer");
+    this.flagCounter = <HTMLDivElement>document.getElementById("flagCounter");
+
     this.w = width;
     this.h = height;
     this.mines = mines;
     this.tiles = [];
 
+    this.lost = false;
+    this.won = false;
+    this.started = false;
+    this.time = 0;
+    this.flagsPlaced = 0;
+
+    this.flagCounter.innerText = this.mines.toString();
+    this.timer.innerText = "0";
     this.ctx.canvas.width = this.w * 30;
     this.ctx.canvas.height = this.h * 30;
 
@@ -58,7 +74,18 @@ class Board {
     this.ctx.canvas.addEventListener("click", this.handleClick.bind(this));
     this.ctx.canvas.addEventListener("contextmenu", this.handleRightClick.bind(this));
 
+    this.manageTimer();
+
     this.render();
+  }
+
+  manageTimer() {
+    if (this.lost || this.won) return;
+    if (this.started) {
+      this.timer.innerText = this.time.toString();
+      this.time++;
+    }
+    setTimeout(this.manageTimer.bind(this), 1000);
   }
 
   render() {

@@ -60,6 +60,7 @@ class Tile {
   }
 
   click(board: Board) {
+    board.started = true;
     
     if (this.hasFlag || !this.isHidden) return;
     this.isHidden = false;
@@ -83,8 +84,12 @@ class Tile {
   }
 
   rightClick(board: Board) {
+    board.started = true;
+    
     if (this.isHidden) {
       this.hasFlag = !this.hasFlag;
+      board.flagsPlaced += this.hasFlag ? 1 : -1;
+      board.flagCounter.innerText = `${board.mines - board.flagsPlaced}`;
     }
     else {
       let flags = Tile.neighbours.reduce((prev, curr) => {
