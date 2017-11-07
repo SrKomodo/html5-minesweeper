@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>HTML5 Minesweeper</title>
+</head>
+<body>
+  <div class="settings">
+    <div>Mines</div>
+    <input type="range" value="10" min="1" max="100" id="mines">
+    <div>Width</div>
+    <input type="range" value="9" min="1" max="30" id="width">
+    <div>Height</div>
+    <input type="range" value="9"min="1" max="30" id="height">
+  </div>
+  <div class="container">
+    <div class="game-container">
+      <div class="game-header">
+        <div class="numbers" id="flagCounter"></div>
+        <div id="reset"></div>
+        <div class="numbers" id="timer"></div>
+      </div>
+      <canvas id="board"></canvas>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
