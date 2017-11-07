@@ -3,14 +3,31 @@
 }
 
 body {
+  font-family: Arial, Helvetica, sans-serif;
+
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   margin: 0;
   background: lightgray;
-  color: white;
+  color: rgb(68, 68, 68);
+}
+
+.settings {
+  display: inline-block;
+  left: 0;
+  top: 0;
+  text-align: center;
+  background: lightgray;
+  border-right: 3px outset white;
+  border-bottom: 3px outset white;
+  padding: 5px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .game-container {
@@ -26,6 +43,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
 
+  min-height: 40px;
   padding: 5px;
 }
 

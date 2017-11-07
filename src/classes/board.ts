@@ -23,7 +23,7 @@ class Board {
 
   constructor(width: number, height: number, mines: number) {
 
-    if (mines > width * height) mines = width * height;
+    if (mines > width * height) mines = Math.max(1, width * height - Math.max(width, height));
 
     this.ctx = (<HTMLCanvasElement>document.getElementById("board")).getContext("2d");
     this.timer = <HTMLDivElement>document.getElementById("timer");
@@ -106,9 +106,10 @@ class Board {
 
   handleClick(e: MouseEvent) {
     if (this.lost || this.won) return;
+    console.log(e.offsetX - this.ctx.canvas.clientLeft)
     let pos = new Coord(
-      Math.floor((e.clientX - this.ctx.canvas.offsetLeft) / 30),
-      Math.floor((e.clientY - this.ctx.canvas.offsetTop) / 30)
+      Math.floor((e.offsetX - this.ctx.canvas.clientLeft) / 30),
+      Math.floor((e.offsetY - this.ctx.canvas.clientTop) / 30)
     );
     if (this.at(pos).isHidden) {
       this.at(pos).click(this);
@@ -120,8 +121,8 @@ class Board {
   handleRightClick(e: MouseEvent) {
     if (this.lost || this.won) return;
     let pos = new Coord(
-      Math.floor((e.clientX - this.ctx.canvas.offsetLeft) / 30),
-      Math.floor((e.clientY - this.ctx.canvas.offsetTop) / 30)
+      Math.floor((e.offsetX - this.ctx.canvas.clientLeft) / 30),
+      Math.floor((e.offsetY - this.ctx.canvas.clientTop) / 30)
     );
     this.at(pos).rightClick(this);
     this.render();
